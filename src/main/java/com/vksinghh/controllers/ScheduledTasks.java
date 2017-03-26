@@ -34,7 +34,8 @@ public class ScheduledTasks {
 
         log.info("Sending msg to queue : " + newMessage);
         log.info("queueUrl : " + getQueueUrlResult.getQueueUrl());
-        sqsClient.sendMessage(sendMessageRequest);
+        log.info("Thread Name : " + Thread.currentThread().getName());
+	sqsClient.sendMessage(sendMessageRequest);
     }
 
     @Scheduled(fixedRate = 5000)
@@ -49,6 +50,7 @@ public class ScheduledTasks {
             log.info("    MessageId:     " + message.getMessageId());
             log.info("    Body:          " + message.getBody());
         }
+	log.info("Thread Name : " + Thread.currentThread().getName());
 
     }
 }
