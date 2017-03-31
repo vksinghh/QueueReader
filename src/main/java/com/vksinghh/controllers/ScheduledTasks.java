@@ -4,10 +4,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.GetQueueUrlResult;
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
-import com.amazonaws.services.sqs.model.SendMessageRequest;
+import com.amazonaws.services.sqs.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -54,6 +51,9 @@ public class ScheduledTasks {
             log.info("  Message");
             log.info("    MessageId:     " + message.getMessageId());
             log.info("    Body:          " + message.getBody());
+
+            deleteMessage(message, getQueueUrlResult.getQueueUrl(), sqsClient);
+
         }
         log.info("Thread Name : " + Thread.currentThread().getName());
         log.info("*********************");
@@ -73,9 +73,17 @@ public class ScheduledTasks {
             log.info("  Message");
             log.info("    MessageId:     " + message.getMessageId());
             log.info("    Body:          " + message.getBody());
+
+            deleteMessage(message, getQueueUrlResult.getQueueUrl(), sqsClient);
         }
         log.info("Thread Name : " + Thread.currentThread().getName());
         log.info("*********************");
 
+    }
+
+    private void deleteMessage(Message message, String queueUrl, AmazonSQS sqsClient) {
+        String receiptHandle = message.getReceiptHandle();
+        DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest(queueUrl, receiptHandle);
+        sqsClient.deleteMessage(deleteMessageRequest);
     }
 }
