@@ -20,7 +20,7 @@ public class Writer {
 
     private static final Logger log = LoggerFactory.getLogger(Writer.class);
 
-    @Async
+    @Async("myWriteExecutor")
     public void writeToQueue() {
         AmazonSQS sqsClient = AmazonSQSClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(Regions.US_EAST_1).build();
         GetQueueUrlResult getQueueUrlResult = sqsClient.getQueueUrl("vksinghhqueue");

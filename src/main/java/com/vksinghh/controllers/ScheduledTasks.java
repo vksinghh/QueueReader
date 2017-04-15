@@ -23,16 +23,16 @@ public class ScheduledTasks {
 
     @Scheduled(fixedDelay = 3000)
     public void writeTask() {
-        log.info("Spawning multiple Asyc tasks from thread : " + Thread.currentThread().getName());
-        for (int i = 0; i < 3; i++) {
+        log.info("Spawning multiple Write Asyc tasks from thread : " + Thread.currentThread().getName());
+        for (int i = 0; i < 10; i++) {
             writer.writeToQueue();
         }
     }
 
     @Scheduled(fixedDelay = 3000)
-    public void read() {
-        log.info("Spawning multiple Asyc tasks from thread : " + Thread.currentThread().getName());
-        for (int i = 0; i < 3; i++) {
+    public void readTask() {
+        log.info("Spawning multiple Read Asyc tasks from thread : " + Thread.currentThread().getName());
+        for (int i = 0; i < 10; i++) {
             reader.readFromQueue();
         }
     }

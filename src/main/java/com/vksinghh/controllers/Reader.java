@@ -23,7 +23,7 @@ public class Reader {
 
     private static final Logger log = LoggerFactory.getLogger(Reader.class);
 
-    @Async
+    @Async("myReadExecutor")
     public void readFromQueue() {
         AmazonSQS sqsClient = AmazonSQSClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(Regions.US_EAST_1).build();
         GetQueueUrlResult getQueueUrlResult = sqsClient.getQueueUrl("vksinghhqueue");
